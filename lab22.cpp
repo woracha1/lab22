@@ -1,5 +1,7 @@
 #include<iostream>
 #include<cmath>
+#include <stdio.h>      
+#include <math.h>  
 using namespace std;
 
 class ComplexNumber{				
@@ -29,6 +31,58 @@ ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 }
 
 //Write your code here
+
+ostream & operator<<(ostream &os, const ComplexNumber &c){
+	if(c.imag<0&&c.real!=0) return os<<c.real<<c.imag<<"i";
+	else if(c.imag!=0&&c.real!=0) return os<<c.real<<"+"<<c.imag<<"i";
+	else if(c.imag==0) return os<<c.real;
+	else return os<<c.imag<<"i";
+}
+
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){
+	return ComplexNumber(real * c.real - imag * c.imag, real * c.imag + imag * c.real);
+}
+
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){
+	double x = c.real * c.real + c.imag * c.imag;
+    return ComplexNumber((real * c.real + imag * c.imag) / x,(imag * c.real - real * c.imag) / x);
+}
+
+bool ComplexNumber::operator==(const ComplexNumber &c){
+	return real==c.real && imag==c.imag;
+}
+
+bool operator==(double x, const ComplexNumber &c){
+	return x==c.real && c.imag==0;
+}
+
+
+double ComplexNumber::abs(){
+	return sqrt(real * real + imag * imag);
+}
+
+double ComplexNumber::angle() {
+	const double PI = 3.14159265;
+ 	return atan2(imag, real) * 180 / PI;
+}
+
+
+ComplexNumber operator+(double x, const ComplexNumber &c) {
+	return ComplexNumber(x + c.real, c.imag);
+}
+
+ComplexNumber operator-(double x, const ComplexNumber &c) {
+	return ComplexNumber(x - c.real, -c.imag);
+}
+
+ComplexNumber operator*(double x, const ComplexNumber &c) {
+	return ComplexNumber(x * c.real, x * c.imag);
+}
+
+ComplexNumber operator/(double x, const ComplexNumber &c) {
+	double den = c.real * c.real + c.imag * c.imag;
+	return ComplexNumber(x * c.real / den, -x * c.imag / den);
+}
 
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
@@ -69,6 +123,7 @@ int main(){
 	cout << (ComplexNumber(1,1) == ComplexNumber(1,2)) << "\n";
 	cout << (ComplexNumber(1,1) == 1) << "\n";
 	cout << (0 == ComplexNumber()) << "\n";
+return 0 ;
 }
 
 
